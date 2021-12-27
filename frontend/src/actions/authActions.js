@@ -1,7 +1,11 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from './types';
+import { 
+    GET_ERRORS, 
+    SET_CURRENT_USER, 
+    USER_LOADING 
+} from './types';
 
 export const setCurrentUser = decoded => {
     return {
@@ -19,7 +23,11 @@ export const setUserLoading = () => {
 export const setErrors = err => {
     return {
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err.response
+            ? err.response.data
+                ? err.response.data
+                : err
+            : err
     };
 };
 
