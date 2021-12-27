@@ -1,6 +1,4 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import config from '../config/config.js';
 import User from '../models/user.model.js';
 import validateRegisterInput from '../validation/register.js';
 
@@ -13,9 +11,9 @@ const register = (req, res) => {
     const email = req.sanitize(req.body.email);
     const password = req.sanitize(req.body.password);
 
-    User.findOne({ email }).then(user => {
-        if(user) return res.status(400).json({ 
-            email: "Email already exists!" 
+    User.findOne({ $or: [{ name }, { email }] }).then(user => {
+        if (user) return res.status(400).json({ 
+            email: "User name or email already exists!"
         });
 
         const newUser = new User({
